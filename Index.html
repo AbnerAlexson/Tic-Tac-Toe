@@ -12,9 +12,68 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Main Contert -->
     <div class="container">
         <h1 class="game-title">Tic-Tac-Toe</h1>
-        <h1 class=""
+        <h3 class="displayTurn">Player 1's turn</h3>
+        <div class="button">
+            <button class="btn">Reset Game</button>
+            <button class="btn">New Game</button>
+        </div>
+        <div class="game-container">
+            <div class="gameboard">
+                <div class="tile" id="0"></div>
+                <div class="tile" id="1"></div>
+                <div class="tile" id="2"></div>
+                <div class="tile" id="3"></div>
+                <div class="tile" id="4"></div>
+                <div class="tile" id="5"></div>
+                <div class="tile" id="6"></div>
+                <div class="tile" id="7"></div>
+                <div class="tile" id="8"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- result modal -->
+    <div class="modal-container">
+        <div class="model-content">
+            <span class="close"></span>
+            <p class="result"></p>
+        </div>
+    </div>
+
+    <div class="modal-wrapper">
+        <div id="initialForm" class="modal-container">
+            <!-- New Game popup content -->
+            <div class="front-content">
+                <form id="settingForm" autocomplete="off">
+                    <div class="input">
+                        <label class="input-label">(X) Player 1's name:</label>
+                        <input type="text" name="player1Name" class="textForm" id="form1" required>
+                    </div>
+                    <div class="input">
+                        <label class="input-label">(O) Player 2's name:</label>
+                        <input type="text" name="player2Name" class="textForm" id="form2" required>
+                    </div>
+                    <div class="input">
+                        <label for="1v1" class="radioTitle">Human vs Human:</label>
+                        <input type="radio" id="1v1" name="choice" value="0" required />
+                    </div>
+                    <div class="input">
+                        <label for="aiEasy" class="radioTitle">Human vs Easy AI:</label>
+                        <input type="radio" id="aiEasy" name="choice" value="1" required />
+                    </div>
+                    <div class="input">
+                        <label for="aiHard" class="radioTitle">Human vs Hard Ai:</label>
+                        <input type="radio" id="aiHard" name="choice" value="2" required />
+                    </div>
+                    <div class='flex'>
+                        <button type="submit" class="startButton">Start Game</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 <script src="main.js"></script>
 </body>
