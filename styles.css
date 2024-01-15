@@ -1,8 +1,135 @@
-* {
-    font-family: font-family 'Poppins', sans-serif;
+:root {
+    font-family: 'Poppins', sans-serif; 
 }
 
-modal-wrapper, 
-modal-container {
-    display: none;
+* {
+    --content-background: url(./imgs/background-img.jpg);
+}
+
+    /* Main content styling */
+
+.content-container {
+    background: var(--content-background) center center / cover repeat;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-title,
+.displayTurn,
+.buttons > .btn {
+    color: #e2e8f0;
+}
+
+.game-title,
+.displayTurn {
+    text-shadow: 4px 1px 5px rgba(255,255,255,0.79);
+}
+
+.game-title {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+}
+
+.displayTurn {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.buttons .btn:nth-child(1) {
+    font-weight: 600;
+    background: #dc2626;
+    border: 2px solid ;
+    border-radius: 7px;
+    padding: 5px 10px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.buttons .btn:nth-child(1):hover {
+    color: #dc2626;
+    background: #fff;
+}
+
+.buttons .btn:nth-child(2) {
+    font-weight: 600;
+    background: #16a34a;
+    border: 2px solid ;
+    border-radius: 7px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.buttons .btn:nth-child(2):hover {
+    color: #16a34a;
+    background: #fff;
+}
+
+.game-container {
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.gameboard {
+    background: rgba(0, 0, 0, 0.523);
+    width: 30vw;
+    height: 30vw;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 2rem;
+}
+
+.tile {
+    border: 2px solid #9ca3af;
+    width: auto;
+    height: auto;
+    border-radius: 20px;
+    transition: 0.2s ease-in-out;
+}
+
+.tile:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+ /* REMEMBER TO STYLE MARKER (X) & (O) */
+ 
+.modal-wrapper {
+    background: rgba(0, 0, 0,);  /*fallback color */
+    background: rgba(0, 0, 0, 0.523);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+}
+
+.modal-container {
+    background: rgba(0, 0, 0, 0.300);
+    display: none; /* none after match set flex to configure setting */
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0; 
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    overflow: auto; /* enable scrolling */
+}
+
+/* .modal-content, */
+.front-content {
+    width: max(50%, 450px);
+    height: fit-content;
+    background-color: rgba(238, 158, 39, 0.555);
+    text-align: center;
+    border: 2px solid #1a6607;
+    color: #fff;
 }
