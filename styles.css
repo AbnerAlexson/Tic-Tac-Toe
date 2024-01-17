@@ -92,6 +92,11 @@
     width: auto;
     height: auto;
     border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: #fff;
     transition: 0.2s ease-in-out;
 }
 
