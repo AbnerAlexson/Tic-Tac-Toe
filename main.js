@@ -40,8 +40,6 @@ form.addEventListener("submit", (event) => {
 
   gameData = collectData(); //store data
   document.querySelector(".modal-wrapper").setAttribute("hidden", true); // closes the modal after submiting data
-  //console.log(gameData) // for testing should be removed
-  console.log(gameData)
   startGame(gameData);
 });
 
@@ -95,7 +93,15 @@ const playMoves = (tile, data) => {
 
   // switch turns of players between rounds
   // change Displaytun, and change data.currentplayer from "X" to 'O' and vice versa
-  switchPlayer(data);
+  if (data.choice === 0) {
+    switchPlayer(data); // human vs human mode
+  } else if (data.choice === 1) {
+    // easy ai 
+    easyAiTurn(data);
+    //change player1
+    data.currentPlayer = "X"
+  } 
+  
 };
 
 const endConditions = (data) => {
@@ -146,3 +152,21 @@ const switchPlayer = (data) => {
     }
 
 }
+
+const easyAiTurn = (data) => {
+    switchPlayer(data)
+    setTimeout(() => {
+      let availableIndex = data.board.filter((index) => 
+      index !== "X" && index !== "O"
+      )
+      let availableTiles = availableIndex[Math.floor(Math.random() * availableIndex.length)];
+      data.board[availableTiles] = data.player2;
+      let tile = document.getElementById(`${availableTiles}`)
+      tile.textContent = data.player2;
+    }, 200)
+
+    if (endConditions(data)) {
+      return
+    };
+    switchPlayer(data);
+};
