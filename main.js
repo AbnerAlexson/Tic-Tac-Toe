@@ -100,7 +100,10 @@ const playMoves = (tile, data) => {
     easyAiTurn(data);
     //change player1
     data.currentPlayer = "X"
-  } 
+  } else if (data.choice === 2) {
+    impossibleAIMove(data);
+    data.currentPlayer = 'X'
+  }
   
 };
 
@@ -155,12 +158,15 @@ const switchPlayer = (data) => {
 
 const easyAiTurn = (data) => {
     switchPlayer(data)
-    setTimeout(() => {
-      let availableIndex = data.board.filter((index) => 
-      index !== "X" && index !== "O"
-      )
-      let availableTiles = availableIndex[Math.floor(Math.random() * availableIndex.length)];
-      data.board[availableTiles] = data.player2;
+    data.round++;
+
+    // filter marked tiles and return a single index representing the ai's move 
+    let availableIndex = data.board.filter((index) => 
+    index !== "X" && index !== "O"
+    )
+    let availableTiles = availableIndex[Math.floor(Math.random() * availableIndex.length)];
+    data.board[availableTiles] = data.player2;
+    setTimeout(() => { // make so the ai does not repond instantly to mark the tiles
       let tile = document.getElementById(`${availableTiles}`)
       tile.textContent = data.player2;
     }, 200)
@@ -170,3 +176,7 @@ const easyAiTurn = (data) => {
     };
     switchPlayer(data);
 };
+
+//const impossibleAIMove = (data) {
+  //data.round++
+//};
