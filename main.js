@@ -36,7 +36,7 @@ form.addEventListener('submit', (event) => {
 const initializeVariable = (varData) => {
     // initializing game variable
     varData.choice = +gameData.choice;
-    varData.board = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    varData.board = [1, 1, 2, 3, 4, 5, 6, 7, 8];
     varData.player1 = 'X';
     varData.player2 = 'O';
     varData.round = 0;
@@ -44,10 +44,34 @@ const initializeVariable = (varData) => {
     varData.gameOver = false;
 }
 
+const addEventlistenersIntoGameboard = (data) => {
+    document.querySelectorAll('.tile').forEach((tile) => {
+        tile.addEventListener('click', (event) => {
+            playMoves(event.target, data);
+        })
+    })
+}
+
 const startGame = (gameData) => {
-    // initialize game variables
-    // atached event listeners to gameboard
-    initializeVariable(gameData)
-    console.log(gameData)
+    initializeVariable(gameData) // initialize game variables
+    addEventlistenersIntoGameboard(gameData) // atached event listeners to gameboard
+}
+
+const playMoves = (tile, data) => {
+    //check if game is finish, if it is then dont do anything
+    if (data.gameOver || data.round > 9) {
+        return;
+    }
+
+    //check if tile is marked, if so, don't do anything
+    if (data.board[tile.id] === 'X' || data.board[tile.id] === 'O') {
+        return;
+    }
     
+    // manipulate the dom for each tile, and then check win condition
+    data.board[tile.id] = data.currentPlayer;
+    tile.textContent = data.currentPlayer;
+
+    // increment round
+    data.round++;
 }
