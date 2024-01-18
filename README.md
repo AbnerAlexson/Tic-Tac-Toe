@@ -1,5 +1,8 @@
 # Tic-Tac-Toe
 
+![StartScreen](/imgs/Startscreen.png)
+![Gameplay](/imgs/Gameplay.png)
+
 # Description
 This project is a Tic-tac-toe game, was made as part of The Odin's project curiculum. This game will be made entirely using HTML, CSS and Javascipt. 
 
