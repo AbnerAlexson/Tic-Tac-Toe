@@ -9,8 +9,8 @@ This project is a Tic-tac-toe game, was made as part of The Odin's project curic
 # The main focus of this project.
 <ul>
     <li>Use as little Global code as possible</li>
-    <li>Using as much Factory Function</li>
-    <li>wraping single instances inside IIFE (module pattern)</li>
+    <li>implement factory function</li>
+    <li>implement usage of objects</li>
 </ul>
 
 # Game Features
