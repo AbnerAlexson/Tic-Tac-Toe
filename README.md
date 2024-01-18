@@ -20,4 +20,9 @@ This project is a Tic-tac-toe game, was made as part of The Odin's project curic
     <li>Human vs Hard AI</li>
 </ul>
 
+# Additional Info
+<ul>
+    <li>Hard AI is made by implementing minimax algorithm</li>
+</ul>
+
 
