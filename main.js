@@ -25,6 +25,14 @@ const endGameCondition = [
 ];
 
 const form = document.querySelector("#settingForm");
+const newGamebtn = document.querySelector('#newGameBtn');
+const restartGameBtn = document.querySelector('#resetGameBtn');
+
+
+
+newGamebtn.addEventListener('click', () => {
+  location.reload()
+})
 
 // collects user data
 form.addEventListener("submit", (event) => {
@@ -54,16 +62,28 @@ const initializeVariable = (varData) => {
   varData.gameOver = false;
 };
 
+// reset the tiles to empthy
+const resetDom = () => {
+  document.querySelectorAll('.tile').forEach((tile) => {
+    tile.textContent = '';
+  })
+}
+
 const addEventlistenersIntoGameboard = (data) => {
   document.querySelectorAll(".tile").forEach((tile) => {
     tile.addEventListener("click", (event) => {
       playMoves(event.target, data);
     });
   });
+  restartGameBtn.addEventListener('click', () => { // button that reset's the game
+  initializeVariable(data);
+  resetDom();
+  manipulateDom('displayTurn', `${gameData.player1Name}'s turn`) // testing
+  })
 };
 
 const startGame = (gameData) => {
-manipulateDom('displayTurn', `${gameData.player1Name}'s turn`)
+  manipulateDom('displayTurn', `${gameData.player1Name}'s turn`)
   initializeVariable(gameData); // initialize game variables
   addEventlistenersIntoGameboard(gameData); // atached event listeners to gameboard
 };
@@ -96,13 +116,15 @@ const playMoves = (tile, data) => {
   if (data.choice === 0) {
     switchPlayer(data); // human vs human mode
   } else if (data.choice === 1) {
-    // easy ai 
-    easyAiTurn(data);
-    //change player1
-    data.currentPlayer = "X"
+    easyAiTurn(data); // easy ai 
+    data.currentPlayer = "X" //change player1
   } else if (data.choice === 2) {
+    switchPlayer(data);
     impossibleAIMove(data);
-    data.currentPlayer = 'X'
+    if (endConditions(data)) {
+      return;
+    }
+    switchPlayer(data);
   }
   
 };
@@ -112,10 +134,11 @@ const endConditions = (data) => {
   // check for a winner
   // check if game is tied
   // game in not over
-  if (checkWinner(data)) {
+  if (checkWinner(data, data.currentPlayer)) {
     //display winner through the dom to annouce the winner
     let winningPlayer = data.currentPlayer === "X" ? data.player1Name : data.player2Name
     manipulateDom('displayTurn', winningPlayer + ' has won the game!')
+    data.gameOver = true;
     return true;
   } else if (data.round === 9) {
     manipulateDom('displayTurn', 'it\'s a Tie Game!') //display tie through the dom to reflect a tie game situation
@@ -125,22 +148,23 @@ const endConditions = (data) => {
   return false;
 };
 
-const checkWinner = (data) => {
+const checkWinner = (data, player) => {
   let result = false;
-  endGameCondition.forEach(condition => {
-    if (data.board[condition[0]] === data.board[condition[1]] && data.board[condition[1]] === data.board[condition[2]]) {
-        console.log('winner')
-        data.gameOver = true;
+  endGameCondition.forEach((condition) => {
+    if (data.board[condition[0]] === player && 
+        data.board[condition[1]] === player && 
+        data.board[condition[2]] === player
+        ) {
         result = true;
     }
-  })
+  });
   return result;
 };
 
 // Function to manipulate dom
 const manipulateDom = (className, textContent) => {
     const elem = document.querySelector(`.${className}`);
-    elem.setAttribute('display', 'block');
+    //elem.setAttribute('display', 'block');
     elem.textContent = textContent;
 }
 
@@ -166,6 +190,7 @@ const easyAiTurn = (data) => {
     )
     let availableTiles = availableIndex[Math.floor(Math.random() * availableIndex.length)];
     data.board[availableTiles] = data.player2;
+
     setTimeout(() => { // make so the ai does not repond instantly to mark the tiles
       let tile = document.getElementById(`${availableTiles}`)
       tile.textContent = data.player2;
@@ -177,6 +202,68 @@ const easyAiTurn = (data) => {
     switchPlayer(data);
 };
 
-//const impossibleAIMove = (data) {
-  //data.round++
-//};
+const impossibleAIMove = (data) => {
+  data.round++
+  // get best possible move with minimax algorithm
+  const move = minimax(data, "O").index;
+  data.board[move] = data.player2;
+  let box = document.getElementById(`${move}`);
+  box.textContent = data.player2;
+};
+// using minimax algorithm to create an impossible AI
+const minimax = (data, player) => {
+  let availableIndex = data.board.filter(
+    (index) => index !== "X" && index !== "O");
+   // console.log(availableIndex)
+  if (checkWinner(data, data.player1)) {
+    return {
+      score: -100,
+    };
+  } else if (checkWinner(data, data.player2)) {
+    return {
+      score: 100,
+    };
+  } else if (availableIndex.length === 0) {
+    return {
+      score: 0,
+    };
+  }
+  // check if winner, if player1 wins set score to -100
+  // if it's a tie, set score to 0
+  //if ai wins ser score to 100
+  const potentialMoves = [];
+  //loop over available spaces to get list of all potential moves and check if wins
+  for (let i = 0; i < availableIndex.length; i++) {
+    let move = {};
+    move.index = data.board[availableIndex[i]];
+    data.board[availableIndex[i]] = player;
+    if (player === data.player2) {
+      move.score = minimax(data, data.player1).score;
+    } else {
+      move.score = minimax(data, data.player2).score;
+    }
+    // reset the move on the board
+    data.board[availableIndex[i]] = move.index;
+    //push the potential move to the array
+    potentialMoves.push(move);
+  }
+  let bestMove = 0;
+  if (player === data.player2) {
+    let bestScore = -10000;
+    for (let i = 0; i < potentialMoves.length; i++) {
+      if (potentialMoves[i].score > bestScore) {
+        bestScore = potentialMoves[i].score
+        bestMove = i;
+      }
+    }
+  } else {
+    let bestScore = 10000;
+    for (let i = 0; i < potentialMoves.length; i++) {
+      if (potentialMoves[i].score < bestScore) {
+        bestScore = potentialMoves[i].score
+        bestMove = i;
+      }
+    }
+  }
+  return potentialMoves[bestMove];
+}
