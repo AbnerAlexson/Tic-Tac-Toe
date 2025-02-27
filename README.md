@@ -4,7 +4,7 @@
 ![Gameplay](/imgs/Gameplay.png)
 
 # Description
-This project is a Tic-tac-toe game, was made as part of The Odin's project curiculum. This game will be made entirely using HTML, CSS and Javascipt. 
+This project is a Tic-tac-toe game, was made as part of The Odin's. This will act as a normal tic-tac-toe game with ai and pvp. This program will be made entirely using HTMl, CSS, and JavaScript  
 
 # The main focus of this project.
 <ul>
